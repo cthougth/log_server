@@ -1,0 +1,19 @@
+html, body {
+    height: 100%;background:#f5f6f7;
+}
+
+.header {
+    height:120px;width:100%;
+}
+.menu {
+    width:100%;height:30px;line-height:30px;background:#efefef;
+}
+.menu ul {
+    width:980px;margin:0 auto;
+}
+.menu ul li {
+    float:left;list-style-type: none;
+}
+.footer {
+    height:80px;background:white;position:fixed;bottom:0;width:100%;
+}

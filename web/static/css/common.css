@@ -1,0 +1,29 @@
+html, body {
+    height: 100%;background:#f5f6f7;
+}
+
+.header {
+    height:150px;width:100%;
+}
+.menu {
+    width:100%;height:30px;line-height:30px;background:#efefef;
+}
+.menu ul {
+    width:980px;margin:0 auto;
+}
+.menu ul li {
+    float:left;list-style-type: none;
+}
+.menu-picture {
+    background-image:url('/static/images/menu-bg.png');  height:120px;background-color:#2b542c;
+    position: relative;color:white;font-size:28px;line-height:120px;
+}
+.menu-picture .menu-title {
+    width:980px;margin:0 auto;
+}
+.container{
+    width:980px;margin:0 auto;
+}
+.footer {
+
+}
