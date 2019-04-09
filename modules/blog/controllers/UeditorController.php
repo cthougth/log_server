@@ -6,6 +6,8 @@ use yii;
 
 class UeditorController extends \crazydb\ueditor\UEditorController
 {
+
+
     public function init(){
         $this->config = [
             'imageActionName'      => 'uploadimage', /* 执行上传图片的action名称 */
@@ -31,18 +33,21 @@ class UeditorController extends \crazydb\ueditor\UEditorController
 
     public function behaviors()
     {
+        //return parent::behaviors();
+
         return array_merge(parent::behaviors(), [
             'corsFilter' => [
                 'class' => \yii\filters\Cors::className(),
                 'cors' => [
                     'Origin' => ['*'],
                     'Access-Control-Request-Method' => ['*'],
-                    'Access-Control-Allow-Credentials' => true,
+                    'Access-Control-Allow-Credentials' => false,
                     'Access-Control-Max-Age' => 86400,
                     'Access-Control-Request-Headers' => ['X_Requested_With'],
                 ],
             ],
         ]);
+
     }
 
 }
