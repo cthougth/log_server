@@ -50,6 +50,14 @@ abstract class CurdController extends BaseController
         $this->setScenarios();
     }
 
+    protected function getErrorMessage($errors){
+        $message = '';
+        foreach ($errors as $key => $item) {
+            $message .= implode(',', $item);
+        }
+        return $message;
+    }
+
     public function actionCreate()
     {
         $model = $this->getDataRecord();
@@ -59,12 +67,7 @@ abstract class CurdController extends BaseController
             $model->save();
             return $this->success([], '添加成功');
         } else {
-            $errors = $model->getErrors();
-            $message = '';
-            foreach ($errors as $key => $item) {
-                $message .= implode(',', $item);
-            }
-            return $this->fail('添加失败:' . $message);
+            return $this->fail('添加失败:' . $this->getErrorMessage($model->getErrors()));
         }
     }
 
@@ -93,22 +96,24 @@ abstract class CurdController extends BaseController
         $model = $this->getDataModel()->where([$this->getPrimaryKey() => $id])->one();
         $model->setScenario($this->scenUpdate);
         $post = Yii::$app->request->post();
-        //$post[$this->getPrimaryKey()] = $id;
-        if ($model->load($post) && $model->save()) {
-            return $this->success('更新成功');
+        if ($model->load([$model->formName() => $post]) && $model->save()) {
+            return $this->success([],'更新成功');
         }else{
-            $errors = $model->getErrors();
-            $message = '';
-            foreach ($errors as $key => $item) {
-                $message .= implode(',', $item);
-            }
-            return $this->fail('更新失败:' . $message);
+            return $this->fail('更新失败:' . $this->getErrorMessage($model->getErrors()));
         }
     }
 
     public function actionDelete()
     {
-
+        $id = Yii::$app->request->post('id', 0);
+        if (empty($id)) {
+            return $this->fail('缺少信息编号');
+        }
+        if($this->getDataModel()->where([$this->getPrimaryKey() => $id])->delete()){
+            return $this->success([],'删除成功');
+        }else{
+            return $this->fail('删除失败');
+        }
     }
 
     public function actionInfo()
