@@ -109,10 +109,11 @@ abstract class CurdController extends BaseController
         if (empty($id)) {
             return $this->fail('缺少信息编号');
         }
-        if($this->getDataModel()->where([$this->getPrimaryKey() => $id])->delete()){
+        $model = $this->getDataModel()->where([$this->getPrimaryKey() => $id])->one();
+        if($model && $model->delete()){
             return $this->success([],'删除成功');
         }else{
-            return $this->fail('删除失败');
+            return $this->fail('删除失败:'.$this->getErrorMessage($model->getErrors()));
         }
     }
 
