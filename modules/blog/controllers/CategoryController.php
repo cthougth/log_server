@@ -16,6 +16,10 @@ class CategoryController extends CurdController
         $this->scenUpdate = 'update';
     }
 
+    protected function getPrimaryKey(){
+        return Sort::primaryKey()[0];
+    }
+
     public function getDataModel(){
         return Sort::find();
     }
