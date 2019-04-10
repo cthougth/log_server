@@ -50,7 +50,8 @@ abstract class CurdController extends BaseController
         $this->setScenarios();
     }
 
-    protected function getErrorMessage($errors){
+    protected function getErrorMessage($errors)
+    {
         $message = '';
         foreach ($errors as $key => $item) {
             $message .= implode(',', $item);
@@ -76,10 +77,13 @@ abstract class CurdController extends BaseController
         $page = Yii::$app->request->get('page', 1);
         $pageSize = Yii::$app->request->get('pagesize', 10);
         $activeRecord = $this->listModel($this->getDataModel());
+        if(empty($activeRecord->select)){
+            $field = Yii::$app->request->get('field','*');
+            $activeRecord->select($field);
+        }
         $count = $activeRecord->count();
         if ($count) {
-            $result = $activeRecord->offset(($page - 1) * $pageSize)
-                ->limit($pageSize)->asArray()->all();
+            $result = $activeRecord->offset(($page - 1) * $pageSize)->limit($pageSize)->asArray()->all();
             return $this->success(['total' => $count, 'data' => $result]);
         } else {
             return $this->success(['total' => 0, 'data' => []]);
@@ -97,8 +101,8 @@ abstract class CurdController extends BaseController
         $model->setScenario($this->scenUpdate);
         $post = Yii::$app->request->post();
         if ($model->load([$model->formName() => $post]) && $model->save()) {
-            return $this->success([],'更新成功');
-        }else{
+            return $this->success([], '更新成功');
+        } else {
             return $this->fail('更新失败:' . $this->getErrorMessage($model->getErrors()));
         }
     }
@@ -110,10 +114,10 @@ abstract class CurdController extends BaseController
             return $this->fail('缺少信息编号');
         }
         $model = $this->getDataModel()->where([$this->getPrimaryKey() => $id])->one();
-        if($model && $model->delete()){
-            return $this->success([],'删除成功');
-        }else{
-            return $this->fail('删除失败:'.$this->getErrorMessage($model->getErrors()));
+        if ($model && $model->delete()) {
+            return $this->success([], '删除成功');
+        } else {
+            return $this->fail('删除失败:' . $this->getErrorMessage($model->getErrors()));
         }
     }
 
@@ -126,6 +130,6 @@ abstract class CurdController extends BaseController
         $model = $this->getDataModel();
         $select = Yii::$app->request->get('field', '*');
         $data = $model->select($select)->where([$this->getPrimaryKey() => $id])->asArray()->one();
-        return $data ? $this->success($data) : $this->success([],'没有找到信息数据');
+        return $data ? $this->success($data) : $this->success([], '没有找到信息数据');
     }
 }
