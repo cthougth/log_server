@@ -34,7 +34,12 @@ class BlogController extends CurdController
         if($sortId){
             $condition['sortid'] = $sortId;
         }
-        $field = Yii::$app->request->get('field','title,sortid,date,gid');
-        return empty($condition) ? $active->select($field)->orderBy('gid desc') :  $active->select($field)->where($condition)->orderBy('gid desc');
+        $field = Yii::$app->request->get('field','title,sortid,date,gid,sortname');
+        if(!empty($condition)){
+            $active->where($condition);
+        }
+        return $active->select($field)->joinWith('sort',false)->orderBy('gid desc');
+        //return empty($condition) ? $active->select($field)->orderBy('gid desc') :
+        //    $active->select($field)->where($condition)->orderBy('gid desc');
     }
 }

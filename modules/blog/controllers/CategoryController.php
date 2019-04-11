@@ -33,7 +33,7 @@ class CategoryController extends CurdController
     {
         $condition = [];
         $condition['pid'] = Yii::$app->request->get('pid', 0);
-        return $active->select('sid,sortname,pid')->where($condition);
+        return $active->where($condition);
     }
 
     public function actionListAll()

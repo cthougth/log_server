@@ -32,4 +32,8 @@ class Blog extends \app\models\dataTable\log\Blog
         }
         return parent::beforeSave($insert);
     }
+
+    public function getSort(){
+        return $this->hasOne(Sort::className(), ['sid' => 'sortid']);
+    }
 }
