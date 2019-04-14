@@ -41,6 +41,7 @@ class UeditorController extends \crazydb\ueditor\UEditorController
                 'cors' => [
                     'Origin' => ['*'],
                     'Access-Control-Request-Method' => ['*'],
+                    'Access-Control-Allow-Methods' => ['OPTIONS','GET','PUT','POST','DELETE'],
                     'Access-Control-Allow-Credentials' => false,
                     'Access-Control-Max-Age' => 86400,
                     'Access-Control-Request-Headers' => ['X_Requested_With'],
